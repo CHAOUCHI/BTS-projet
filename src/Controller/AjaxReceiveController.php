@@ -247,12 +247,34 @@ class AjaxReceiveController extends AbstractController
         echo ($message);
         return $this->render('ajax_receive/index.html.twig');
     }
+
      /**
-     * @Route("variables/sendEventsDates", name="sendeventsdates") 
+     * @Route("variables/sendEventsDates/{dateStart}/{dateEnd}", name="sendeventsdates") 
      */
-    public function SendEventsDates(EventRepository $repo){
-        $events = $repo->findAllBetweenDates('2019-05-01','2019-05-31');
-        $message = json_encode($events);
+    public function SendEventsDates(EventRepository $repo,$dateStart,$dateEnd){
+        /*if(($dateStart && $dateEnd) === undefined){
+                    
+        }*/
+        $dateStart = substr($dateStart,0,10);
+        $dateEnd = substr($dateEnd,0,10);
+        $events = $repo->findAllBetweenDates($dateStart,$dateEnd);
+
+        $tabl = array();
+        
+        for ($i=0; $i < sizeof($events); $i++){
+            $j = 0;
+            $tabl[$i][$j] = $events[$i]->getId();
+            $tabl[$i][++$j] = $events[$i]->getTitle();
+            $tabl[$i][++$j] = $events[$i]->getDescription();
+            $tabl[$i][++$j] = $events[$i]->getUsersid()[0];
+            $tabl[$i][++$j] = $events[$i]->getMachinesid()[0];
+            $tabl[$i][++$j] = $events[$i]->getDateStart();
+            $tabl[$i][++$j] = $events[$i]->getDateEnd();
+            $tabl[$i][++$j] = $events[$i]->getFrequence();
+        }
+
+        //dd($tabl);
+        $message = json_encode($tabl);
         echo ($message);
         return $this->render('ajax_receive/index.html.twig');
     }

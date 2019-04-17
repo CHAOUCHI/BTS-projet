@@ -71,7 +71,6 @@ var table = {
 
 		return currentUser;
 	},
-
 	ByDate: function(dateStart,dateEnd){
 		var xhReq = new XMLHttpRequest();
 		var events;
@@ -88,12 +87,10 @@ var table = {
 	}
 };
 
-var event1 = table.init("event",1)[5];
-var event2 = table.init("event",3)[5];
-console.log(event1,event2);
-console.log(table.ByDate(event1,event2));
+console.log(table.GetCurrentUser());
+console.log(table.ByDate("2014-01-01","2019-12-31"));
 
 ///PROCEDURE D'UTLISATION-------------------------------------------------//
-//table.init("selected")	// selected === nom de la table selectionée
+//table.init("selected",id)	// selected === nom de la table selectionée id==idselected ex: table.init("event",22); selected : event idselected : 22
 //table.retour[i][n]		// i : ligne	n : colonne
 //-----------------------------------------------------------------------//
