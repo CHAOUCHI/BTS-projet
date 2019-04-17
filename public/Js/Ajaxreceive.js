@@ -71,13 +71,29 @@ var table = {
 
 		return currentUser;
 	},
-/*	ByDate: function(dateStart,dateEnd){
 
-	}*/
+	ByDate: function(dateStart,dateEnd){
+		var xhReq = new XMLHttpRequest();
+		var events;
+		xhReq.onreadystatechange = function() {
+			if (this.readyState == 4 && (this.status == 200 || this.status == 0)) {
+				events = JSON.parse(this.responseText);
+			}
+		};
+		xhReq.open("post","variables/sendEventsDates/"+String(dateStart)+"/"+String(dateEnd),false);
+
+		xhReq.send();
+
+		return events;
+	}
 };
+
+var event1 = table.init("event",1)[5];
+var event2 = table.init("event",3)[5];
+console.log(event1,event2);
+console.log(table.ByDate(event1,event2));
 
 ///PROCEDURE D'UTLISATION-------------------------------------------------//
 //table.init("selected")	// selected === nom de la table selectionée
 //table.retour[i][n]		// i : ligne	n : colonne
 //-----------------------------------------------------------------------//
-

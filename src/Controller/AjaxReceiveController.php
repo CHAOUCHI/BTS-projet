@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Entity\Machine;
@@ -15,8 +12,6 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Entity\Maintenance;
 use App\Repository\MaintenanceRepository;
-
-
 class AjaxReceiveController extends AbstractController
 {
     /**
@@ -27,21 +22,18 @@ class AjaxReceiveController extends AbstractController
            $table = $repo->findOneBy([
                 'id'=>$parse
             ]);
-
             if($table === null){
                 $message = json_encode("empty");
                 echo ($message);
-
                 return $this->render('ajax_receive/index.html.twig'); 
             }
-
             $tabl = array();
-            $j = 0; 
+            $j = 0;
             $tabl[$j] = $table->getId();
             $tabl[++$j] = $table->getTitle();
             $tabl[++$j] = $table->getDescription();
-            $tabl[++$j] = $table->getUsersid();
-            $tabl[++$j] = $table->getMachinesid();
+            $tabl[++$j] = $table->getUsersid()[0];
+            $tabl[++$j] = $table->getMachinesid()[0];
             $tabl[++$j] = $table->getDateStart();
             $tabl[++$j] = $table->getDateEnd();
             $tabl[++$j] = $table->getFrequence();
@@ -51,12 +43,10 @@ class AjaxReceiveController extends AbstractController
         
             return $this->render('ajax_receive/index.html.twig'); 
         }
-
         $table = $repo->findAll();
         if($table === null){
             $message = json_encode("empty");
             echo ($message);
-
             return $this->render('ajax_receive/index.html.twig'); 
         }
         $tabl = array();
@@ -66,25 +56,21 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][$j] = $table[$i]->getId();
             $tabl[$i][++$j] = $table[$i]->getTitle();
             $tabl[$i][++$j] = $table[$i]->getDescription();
-            $tabl[$i][++$j] = $table[$i]->getUsersid();
-            $tabl[$i][++$j] = $table[$i]->getMachinesid();
+            $tabl[$i][++$j] = $table[$i]->getUsersid()[0];
+            $tabl[$i][++$j] = $table[$i]->getMachinesid()[0];
             $tabl[$i][++$j] = $table[$i]->getDateStart();
             $tabl[$i][++$j] = $table[$i]->getDateEnd();
             $tabl[$i][++$j] = $table[$i]->getFrequence();
         }
-
         $message = json_encode($tabl);
-
         echo ($message);
         
         return $this->render('ajax_receive/index.html.twig'); 
     }
-
      /**
      * @Route("accesbdd/sendmachine/{parse}", name="sendmachine") 
      */
     public function SendMachine(MachineRepository $repo,$parse){
-
         if($parse && $parse != "undefined"){    //Si aucun id n'est passer en param on fait un SELECT * FROM machine; sinon SELECT * FROM machine WHERE id = $parse;
            $table = $repo->findOneBy([
                 'id'=>$parse
@@ -92,7 +78,6 @@ class AjaxReceiveController extends AbstractController
             if($table === null){
                 $message = json_encode("empty");
                 echo ($message);
-
                 return $this->render('ajax_receive/index.html.twig'); 
             }
             $tabl = array();
@@ -114,12 +99,10 @@ class AjaxReceiveController extends AbstractController
         
             return $this->render('ajax_receive/index.html.twig'); 
         }
-
         $table = $repo->findAll();
         if($table === null){
             $message = json_encode("empty");
             echo ($message);
-
             return $this->render('ajax_receive/index.html.twig'); 
         }
         $tabl = array();
@@ -143,12 +126,10 @@ class AjaxReceiveController extends AbstractController
         
         return $this->render('ajax_receive/index.html.twig'); 
     }
-
     /**
      * @Route("accesbdd/sendmaintenance/{parse}", name="sendmaintenance") 
      */
     public function SendMaintenance(MaintenanceRepository $repo,$parse){
-
         if($parse && $parse != "undefined"){    //Si aucun id n'est passer en param on fait un SELECT * FROM machine; sinon SELECT * FROM machine WHERE id = $parse;
            $table = $repo->findOneBy([
                 'id'=>$parse
@@ -156,14 +137,13 @@ class AjaxReceiveController extends AbstractController
             if($table === null){
                 $message = json_encode("empty");
                 echo ($message);
-
                 return $this->render('ajax_receive/index.html.twig'); 
             }
             $tabl = array();
             
             $j = 0; 
             $tabl[$j] = $table->getId();
-            $tabl[++$j] = $table->getIdMachine();
+            $tabl[++$j] = $table->getIdMachine()->getId();
             $tabl[++$j] = $table->getNom();
             $tabl[++$j] = $table->getPicturefile();
             $tabl[++$j] = $table->getPicturefilename();
@@ -173,12 +153,10 @@ class AjaxReceiveController extends AbstractController
         
             return $this->render('ajax_receive/index.html.twig'); 
         }
-
         $table = $repo->findAll();
         if($table === null){
             $message = json_encode("empty");
             echo ($message);
-
             return $this->render('ajax_receive/index.html.twig'); 
         }
         $tabl = array();
@@ -197,12 +175,10 @@ class AjaxReceiveController extends AbstractController
         
         return $this->render('ajax_receive/index.html.twig'); 
     }
-
     /**
      * @Route("accesbdd/senduser/{parse}", name="senduser") 
      */
     public function SendUser(UserRepository $repo,$parse){
-
         if($parse && $parse != "undefined"){        //Si aucun id n'est passer en param on fait un SELECT * FROM user; sinon SELECT * FROM user WHERE id = $parse
             $table = $repo->findOneBy([
                 'id'=>$parse
@@ -210,7 +186,6 @@ class AjaxReceiveController extends AbstractController
             if($table === null){
                 $message = json_encode("empty");
                 echo ($message);
-
                 return $this->render('ajax_receive/index.html.twig'); 
             }
             $tabl = array();
@@ -223,21 +198,17 @@ class AjaxReceiveController extends AbstractController
             $tabl[++$j] = $table->getNom();
             $tabl[++$j] = $table->getPrenom();
             $tabl[++$j] = $table->getDatecreation();
-
             $message = json_encode($tabl);
             echo ($message);
-
             return $this->render('ajax_receive/index.html.twig');
         }
         $table = $repo->findAll();
         if($table === null){
             $message = json_encode("empty");
             echo ($message);
-
             return $this->render('ajax_receive/index.html.twig'); 
         }
         $tabl = array();
-
         for ($i=0; $i < sizeof($table); $i++){
             $j=0; 
             $tabl[$i][$j] = $table[$i]->getId();
@@ -249,12 +220,9 @@ class AjaxReceiveController extends AbstractController
             $tabl[$i][++$j] = $table[$i]->getDatecreation();
         }
         $message = json_encode($tabl);
-
         echo ($message);
-
         return $this->render('ajax_receive/index.html.twig');
     }
-
     /**
      * @Route("variables/sendsession", name="sendsession") 
      */
@@ -265,7 +233,6 @@ class AjaxReceiveController extends AbstractController
             ]
         );
         $tabl = array();
-
         $j=0;
         $tabl[$j] = $user[0]->getId();
         $tabl[++$j] = $user[0]->getEmail();
@@ -278,9 +245,15 @@ class AjaxReceiveController extends AbstractController
         $message = json_encode($tabl);
         
         echo ($message);
-
+        return $this->render('ajax_receive/index.html.twig');
+    }
+     /**
+     * @Route("variables/sendEventsDates", name="sendeventsdates") 
+     */
+    public function SendEventsDates(EventRepository $repo){
+        $events = $repo->findAllBetweenDates('2019-05-01','2019-05-31');
+        $message = json_encode($events);
+        echo ($message);
         return $this->render('ajax_receive/index.html.twig');
     }
 }
-
-
